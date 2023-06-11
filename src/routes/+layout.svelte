@@ -8,15 +8,15 @@
         <a class="navbar-brand" href="/">TuneForge</a>
         <div class="navbar-expand" id="navbarNav">
             <ul class="navbar-nav">
-                {#if true}
+                {#if $page.data.session}
                     <li class="nav-item">
                         <button type="button" class="btn btn-link">
                             <a href="/account">Account</a>
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="btn btn-link">
-                            <a href="/login">Sign out</a>
+                        <button type="button" class="btn btn-link" on:click={() => signOut()}>
+                            Sign out
                         </button>
                     </li>
                 {:else}

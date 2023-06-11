@@ -5,7 +5,7 @@
     <div class="row">
         <h4>Genre Transfer - Change the genre of your uploaded music</h4>
     </div>
-    <div class="row">
+    <div class="row row-cols-auto justify-content-between">
         <div class="col">
             <div class="card mb-5 mb-lg-0">
                 <div class="card-body">
