@@ -3,6 +3,11 @@
     import { page } from "$app/stores"
 </script>
 
+<svelte:head>
+	<title>TuneForge</title>
+	<html lang="en" />
+</svelte:head>
+
 <nav class="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">TuneForge</a>

@@ -1,3 +1,15 @@
+<script lang="ts">
+    import { getActions } from "../../api";
+	import { onMount } from 'svelte';
+
+    let actions: any[] = [];
+
+    onMount(async () => {
+        const res = await getActions();
+        actions = await res.json();
+    });
+</script>
+
 <section class="pricing">
     <div class="container">
         <div class="row">
@@ -44,14 +56,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Genre Transfer</td>
-                        <td>1 credit / 12 seconds</td>
-                    </tr>
-                    <tr>
-                        <td>Continuation</td>
-                        <td>1 credit / 12 seconds</td>
-                    </tr>
+                    {#each actions as action}
+                        <tr>
+                            <td>{action.name}</td>
+                            <td>{action.cost} credits / {action.length} seconds</td>
+                        </tr>
+                    {/each}
                 </tbody>
             </table>
         </div>

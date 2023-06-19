@@ -21,6 +21,7 @@
 	"type": "module",
 	"dependencies": {
 		"@auth/core": "^0.8.2",
-		"@auth/sveltekit": "^0.3.1"
+		"@auth/sveltekit": "^0.3.1",
+		"svelte-turnstile": "^0.4.2"
 	}
 }
