@@ -46,6 +46,7 @@
         </div>
         <div class="row">
             <p>Additional credits are available for $10 / 100 credits</p>
+            <p>Credits included in plan expire and refresh every month. Additional purchased credits never expire.</p>
         </div>
         <div class="row">
             <table class="table">
