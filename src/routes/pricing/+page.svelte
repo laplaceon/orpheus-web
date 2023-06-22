@@ -38,7 +38,8 @@
                         <ul>
                             <li>50 monthly credits</li>
                             <li>API access</li>
-                            <li>Access to TuneForge Radio</li>
+                            <li>Additional generated outputs</li>
+                            <!-- <li>Access to TuneForge Radio</li> -->
                         </ul>
                     </div>
                 </div>

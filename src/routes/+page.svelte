@@ -1,11 +1,11 @@
 <div class="container">
-    <div class="row">
+    <div class="row mb-3">
         <h2>Hear something never heard before</h2>
     </div>
     <div class="row">
         <h4><a href="/actions/genre_transfer">Genre Transfer</a> - Change the genre of your uploaded music</h4>
     </div>
-    <div class="row row-cols-auto justify-content-between">
+    <div class="row row-cols-auto justify-content-between mb-3">
         <div class="col">
             <div class="card mb-5 mb-lg-0">
                 <div class="card-body">
@@ -43,7 +43,7 @@
     <div class="row">
         <h4><a href="/actions/continuation">Continuation</a> - Generate possible continuations of your uploaded music</h4>
     </div>
-    <div class="row">
+    <div class="row mb-3">
         <div class="col">
             <div class="card mb-5 mb-lg-0">
                 <div class="card-body">

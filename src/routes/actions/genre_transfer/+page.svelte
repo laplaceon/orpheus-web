@@ -12,16 +12,10 @@
         "R&B",
         "Rock"
     ].map(genre => ({ slug: slugify(genre, { strict: true, lower: true }), text: genre }));
-    
-    // let audio_file;
-
-    // $: if (audio_file) {
-	// 	// Note that `files` is of type `FileList`, not an Array:
-	// 	// https://developer.mozilla.org/en-US/docs/Web/API/FileList
-	// 	console.log(audio_file);
-	// }
 
     let generated = [];
+
+    let segmentLength = 0;
 
 </script>
 
@@ -29,16 +23,10 @@
     <div class="col">
         <h4>Step 1: Choose file and the region to transform</h4>
         <div class="row">
-            <!-- <input bind:audio_file
-                accept="image/png, image/jpeg"
-                id="avatar"
-                name="avatar"
-                type="file"
-            /> -->
-        
             <AudioTrimmer />
-        
         </div>
+
+        <p>{segmentLength}</p>
     </div>
     <div class="col">
         <h4>Step 2: Choose genre</h4>
@@ -50,8 +38,9 @@
         {/each}
     </div>
     <div class="col">
-        <h4>Step 3: Choose output and download</h4>
-        {#each generated as generatedOption}
-        {/each}
+        <h4>Step 3: Generate and download</h4>
+        <button class="btn btn-primary">Generate</button>
+        <!-- {#each generated as generatedOption}
+        {/each} -->
     </div>
 </div>
