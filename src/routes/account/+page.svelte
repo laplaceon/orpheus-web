@@ -1,5 +1,5 @@
 <script>
-    import { getUserHistory } from "../../api";
+    import { getUserHistory } from "$lib/api";
 	import { onMount } from 'svelte';
 
     let history = [];

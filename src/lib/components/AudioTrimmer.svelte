@@ -1,8 +1,8 @@
 <script>
-    import RangeSlider from "svelte-range-slider-pips";
     import TimePicker from "./TimePicker.svelte";
     import WaveSurfer from "wavesurfer.js";
     import RegionsPlugin from "wavesurfer.js/dist/plugins/regions.js"
+    import * as mm from "music-metadata-browser";
     import { onMount } from "svelte";
 
     let segmentRange = [0, 0];
@@ -16,7 +16,25 @@
     let ws;
     let activeRegion;
 
+    export let segmentLength;
+    // export let decodedSegment;
+
     $: segmentLength = segmentRange[1] - segmentRange[0];
+    // $: if (!loading && ws) {
+    //     if (ws.getDecodedData()) {
+    //         let channels = [];
+    //         for (let i = 0; i < ws.getDecodedData().numberOfChannels; i++) {
+    //             channels.push(ws.getDecodedData().getChannelData(i));
+    //         }
+
+    //         const mono = (channels[0] + channels[1]).map(x => x / 2);
+
+    //         // console.log(channels);
+    //         console.log(mono);
+    //         console.log(ws.getDecodedData().sampleRate);
+    //     }
+        
+    // }
 
     onMount(() => {
         ws = WaveSurfer.create({
@@ -44,13 +62,21 @@
 
             activeRegion.on('update', () => {
                 // console.log();
-                segmentRange[0] = Math.floor(activeRegion.start);
-                segmentRange[1] = Math.floor(activeRegion.end);
-                ws.seekTo(segmentRange[0] / ws.getDuration());
+                segmentRange = [Math.floor(activeRegion.start), Math.floor(activeRegion.end)]
+                ws.seekTo(activeRegion.start / ws.getDuration());
             });
 
             segmentRange[0] = 0;
             segmentRange[1] = Math.floor(ws.getDuration() / 2);
+        });
+
+        // Track the time
+        ws.on('timeupdate', (currentTime) => {
+            // When the end of the region is reached
+            if (activeRegion && ws.isPlaying() && currentTime >= activeRegion.end) {
+                ws.setTime(activeRegion.start);
+                togglePlay();
+            }
         });
 
     });
@@ -69,7 +95,13 @@
 
         });
 
+        mm.parseBlob(audio_files[0]).then(metadata => {
+            console.log(metadata);
+        })
         reader.readAsDataURL(audio_files[0]);
+        if (ws.isPlaying()) {
+            ws.pause();
+        }
         loading = true;
         isPlaying = false;
     }
@@ -80,6 +112,8 @@
                 end: activeRegion.start + fixedSegmentLength,
                 resize: false,
             });
+
+            segmentRange[1] = activeRegion.end
         }
         
     } else {
@@ -112,7 +146,10 @@
 
     <div id="waveformView" class="row mb-2">
         {#if loading}
-            <span>Loading...</span>
+        <div class="d-flex align-items-center">
+            <strong>Loading...</strong>
+            <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
         {/if}
     </div>
 

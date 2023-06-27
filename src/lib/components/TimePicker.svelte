@@ -10,7 +10,7 @@
         <input type="text" class="form-control" placeholder="{timeParts[2]}" aria-label="Hour">
         <span class="input-group-text">:</span>
     {/if}
-    <input type="text" class="form-control" value="{timeParts[1]}" placeholder="Minute" aria-label="Minute">
+    <input type="number" class="form-control" value="{timeParts[1]}" min=0 placeholder="Minute" aria-label="Minute">
     <span class="input-group-text">:</span>
-    <input type="text" class="form-control" value="{timeParts[0]}" placeholder="Minute" aria-label="Second">
+    <input type="number" class="form-control" value="{timeParts[0]}" min=0 placeholder="Minute" aria-label="Second">
 </div>

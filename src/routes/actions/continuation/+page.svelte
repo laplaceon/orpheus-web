@@ -1,5 +1,5 @@
 <script>
-    import AudioTrimmer from "../../../components/AudioTrimmer.svelte";
+    import AudioTrimmer from "$lib/components/AudioTrimmer.svelte";
 </script>
 
 <AudioTrimmer />

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getActions } from "../../api";
+    import { getActions } from "$lib/api";
 	import { onMount } from 'svelte';
 
     let actions: any[] = [];
