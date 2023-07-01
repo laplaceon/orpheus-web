@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from "svelte";
     import AudioTrimmer from "$lib/components/AudioTrimmer.svelte";
     import slugify from "slugify";
@@ -29,7 +29,7 @@
         const res = await getActions();
         const actions = await res.json();
 
-        let genreTransfer = actions.filter(action => action.name == "Genre Transfer");
+        let genreTransfer = actions.filter((action: any) => action.name == "Genre Transfer");
         
         if (genreTransfer.length > 0) {
             cost = {
@@ -39,7 +39,7 @@
         }
     });
 
-    let creditsCost;
+    let creditsCost: number;
 
     $: if (cost.amount != 0 && cost.unit != 0) {
         creditsCost = Math.ceil((cost.amount * (segmentLength / cost.unit)) * 100) / 100;

@@ -1,7 +1,8 @@
 <script>
     import { signIn } from "@auth/sveltekit/client"
     import { page } from "$app/stores"
-    import { redirect } from "@sveltejs/kit";
+
+    const userCreated = $page.url.searchParams.has("userCreated")
 </script>
 
 <style>
@@ -19,6 +20,14 @@
 
 <div class="row justify-content-md-center">
     <div class="col-md-auto">
+        {#if userCreated}
+            <div class="row">
+                <div class="alert alert-primary" role="alert">
+                    Your account has been created! Now you can sign in.
+                </div>              
+            </div>
+        {/if}
+
         <!-- <div class="row m-2">
             <button class="btn btn-outline-dark btn-login" on:click={() => signIn("google")}>
                 <img alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />

@@ -1,20 +1,22 @@
-<script>
+<script lang="ts">
     import TimePicker from "./TimePicker.svelte";
     import WaveSurfer from "wavesurfer.js";
-    import RegionsPlugin from "wavesurfer.js/dist/plugins/regions.js"
+    import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.js"
     import * as mm from "music-metadata-browser";
+    import { toast } from '@zerodevx/svelte-toast'
     import { onMount } from "svelte";
 
     let segmentRange = [0, 0];
     let fixedSegment = false;
     let fixedSegmentLength = 24;
-    let audio_files;
+    let audio_files: FileList;
     let audio_file;
     let isPlaying = false;
     let loading = false;
+    let fileReader: FileReader;
 
-    let ws;
-    let activeRegion;
+    let ws: WaveSurfer;
+    let activeRegion: Region;
 
     export let segmentLength;
     // export let decodedSegment;
@@ -37,6 +39,15 @@
     // }
 
     onMount(() => {
+        fileReader = new window.FileReader();
+        fileReader.addEventListener("load", function () {
+            console.log("file reader loading");
+            audio_file = fileReader.result;
+
+            ws.load(audio_file);
+
+        });
+
         ws = WaveSurfer.create({
             container: '#waveformView',
             waveColor: 'rgb(200, 0, 200)',
@@ -45,6 +56,7 @@
             barWidth: 2,
             barGap: 1,
             barRadius: 2,
+            sampleRate: 44100,
         })
 
         const wsRegions = ws.registerPlugin(RegionsPlugin.create());
@@ -85,25 +97,27 @@
         // Note that `files` is of type `FileList`, not an Array:
         // https://developer.mozilla.org/en-US/docs/Web/API/FileList
 
-        const reader = new FileReader();
-
-        reader.addEventListener("load", function () {
-            // console.log(reader.result);
-            audio_file = reader.result;
-
-            ws.load(audio_file);
-
-        });
+        console.log("invoked");
 
         mm.parseBlob(audio_files[0]).then(metadata => {
             console.log(metadata);
-        })
-        reader.readAsDataURL(audio_files[0]);
-        if (ws.isPlaying()) {
-            ws.pause();
-        }
-        loading = true;
-        isPlaying = false;
+
+            if (metadata.format.sampleRate == 44100) {
+                fileReader.readAsDataURL(audio_files[0]);
+
+                if (ws.isPlaying()) {
+                    ws.pause();
+                }
+
+                loading = true;
+                isPlaying = false;
+            } else {
+                toast.push('Sorry, but can only process 44.1KHz audio');
+            }
+
+        });
+
+        
     }
 
     $: if (fixedSegment) {
@@ -135,6 +149,7 @@
     }
 
 </script>
+
 
 <div id="trimmer">
     <input bind:files={audio_files}

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { signOut } from "@auth/sveltekit/client"
     import { page } from "$app/stores"
+    import { SvelteToast } from '@zerodevx/svelte-toast'
 </script>
 
 <svelte:head>
@@ -27,7 +28,7 @@
                 {:else}
                     <li class="nav-item">
                         <button type="button" class="btn btn-link">
-                            <a href="/login">Sign in</a>
+                            <a href="/signin">Sign in</a>
                         </button>
                     </li>
                 {/if}
@@ -40,6 +41,8 @@
 <div id="content" class="container-fluid">
     <slot />
 </div>
+
+<SvelteToast />
 
 <style>
     /* nav.navbar {

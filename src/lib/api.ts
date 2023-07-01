@@ -1,7 +1,19 @@
-const apiBaseUrl = "http://localhost:8080/v1"
+const apiBaseUrl = "http://127.0.0.1:8080/v1"
 
-export const getUser = (email: string): Promise<Response> => {
-    return fetch(`${apiBaseUrl}/users/${email}`);
+export const createUserWithEmail = (email: string, cfToken: string): Promise<Response> => {
+    const payload = {
+        "email": email,
+        "cf_token": cfToken
+    }
+
+    return fetch(`${apiBaseUrl}/users`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+    });
+}
+
+export const getUserWithEmail = (email: string): Promise<Response> => {
+    return fetch(`${apiBaseUrl}/users/auth/${email}`);
 };
 
 export const getUserHistory = (id: number): Promise<Response> => {

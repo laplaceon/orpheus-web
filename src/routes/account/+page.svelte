@@ -1,8 +1,16 @@
-<script>
+<script context="module" lang="ts">
+    interface Action {
+        action_name: string,
+        created_at: string,
+        cost: string,
+    }
+</script>
+
+<script lang="ts">
     import { getUserHistory } from "$lib/api";
 	import { onMount } from 'svelte';
 
-    let history = [];
+    let history: Action[] = [];
     let user_id = 1;
 
     onMount(async () => {
