@@ -18,25 +18,34 @@
     let ws: WaveSurfer;
     let activeRegion: Region;
 
-    export let segmentLength;
-    // export let decodedSegment;
+    export let segmentLength: number;
+    export let decodedSegment;
+    export let updatingDecoded = false;
 
     $: segmentLength = segmentRange[1] - segmentRange[0];
-    // $: if (!loading && ws) {
-    //     if (ws.getDecodedData()) {
-    //         let channels = [];
-    //         for (let i = 0; i < ws.getDecodedData().numberOfChannels; i++) {
-    //             channels.push(ws.getDecodedData().getChannelData(i));
-    //         }
 
-    //         const mono = (channels[0] + channels[1]).map(x => x / 2);
+    function updateDecodedSegment() {
+        const decodingLength = segmentRange[1] * 44100;
 
-    //         // console.log(channels);
-    //         console.log(mono);
-    //         console.log(ws.getDecodedData().sampleRate);
-    //     }
-        
-    // }
+        if (decodingLength < ws.getDecodedData()!.length) {
+            updatingDecoded = true;
+
+            const decodingIndices = [44100 * segmentRange[0], 44100 * segmentRange[1]];
+            let summed = ws.getDecodedData()!.getChannelData(0).slice(...decodingIndices);
+
+            for (let i = 1; i < ws.getDecodedData()!.numberOfChannels; i++) {
+                let channel = ws.getDecodedData()!.getChannelData(i).slice(...decodingIndices);
+
+                for (let j = 0; j < decodingLength; j++) {
+                    summed[j] = summed[j] + channel[j];
+                }
+            }
+
+            decodedSegment = summed.map(x => x / ws.getDecodedData()!.numberOfChannels);
+            updatingDecoded = false;
+            console.log(decodedSegment);
+        }
+    }
 
     onMount(() => {
         fileReader = new window.FileReader();
@@ -45,7 +54,6 @@
             audio_file = fileReader.result;
 
             ws.load(audio_file);
-
         });
 
         ws = WaveSurfer.create({
@@ -73,13 +81,18 @@
             });
 
             activeRegion.on('update', () => {
-                // console.log();
                 segmentRange = [Math.floor(activeRegion.start), Math.floor(activeRegion.end)]
                 ws.seekTo(activeRegion.start / ws.getDuration());
             });
 
+            activeRegion.on('update-end', () => {
+                updateDecodedSegment();
+            });
+
             segmentRange[0] = 0;
             segmentRange[1] = Math.floor(ws.getDuration() / 2);
+
+            updateDecodedSegment();
         });
 
         // Track the time
@@ -128,6 +141,8 @@
             });
 
             segmentRange[1] = activeRegion.end
+
+            updateDecodedSegment();
         }
         
     } else {

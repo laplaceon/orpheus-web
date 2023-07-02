@@ -5,6 +5,8 @@
 
     import { getActions } from "$lib/api";
 
+    import { bufferToWave } from "$lib/audio_helpers";
+
     const genres = [
         "Classical",
         "Electronic",
@@ -24,8 +26,15 @@
     };
 
     let loading = false;
+    let updatingDecoded = false;
+    let decodedSegment: Float32Array;
+    let audioCtx: AudioContext;
+
+    let url: string = '';
 
     onMount(async () => {
+        audioCtx = new window.AudioContext();
+
         const res = await getActions();
         const actions = await res.json();
 
@@ -49,7 +58,18 @@
 
     async function generate() {
         loading = true;
-        await new Promise(r => setTimeout(r, 1000));
+        // await new Promise(() => {
+        //     while (updatingDecoded) {
+        //     }
+        // });
+        let audioBuffer = audioCtx.createBuffer(1, decodedSegment.length, 44100);
+        audioBuffer.copyToChannel(decodedSegment, 0);
+        
+        const blob = bufferToWave(audioBuffer);
+        url = window.URL.createObjectURL(blob);
+
+        console.log(url);
+
         console.log(selectedGenres);
         loading = false;
     }
@@ -60,7 +80,7 @@
     <div class="col">
         <h4>Step 1: Choose file and the region to transform</h4>
         <div class="row mb-2">
-            <AudioTrimmer bind:segmentLength />
+            <AudioTrimmer bind:segmentLength bind:decodedSegment bind:updatingDecoded />
         </div>
 
         {#if creditsCost}
@@ -96,7 +116,9 @@
             {/if}
             
         </button>
-        <!-- {#each generated as generatedOption}
-        {/each} -->
+        
+        {#if url}
+        <audio src={url} controls />
+        {/if}
     </div>
 </div>
