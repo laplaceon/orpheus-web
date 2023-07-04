@@ -110,8 +110,6 @@
         // Note that `files` is of type `FileList`, not an Array:
         // https://developer.mozilla.org/en-US/docs/Web/API/FileList
 
-        console.log("invoked");
-
         mm.parseBlob(audio_files[0]).then(metadata => {
             console.log(metadata);
 
@@ -123,12 +121,14 @@
                 }
 
                 loading = true;
-                isPlaying = false;
+                
             } else {
                 toast.push('Sorry, but can only process 44.1KHz audio');
             }
 
         });
+
+        isPlaying = false;
 
         
     }

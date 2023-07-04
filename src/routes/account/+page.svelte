@@ -1,16 +1,8 @@
-<script context="module" lang="ts">
-    interface Action {
-        action_name: string,
-        created_at: string,
-        cost: string,
-    }
-</script>
-
 <script lang="ts">
     import { getUserHistory } from "$lib/api";
 	import { onMount } from 'svelte';
 
-    let history: Action[] = [];
+    let history: HistoryItem[] = [];
     let user_id = 1;
 
     onMount(async () => {
@@ -44,6 +36,11 @@
                                 <td>{historyItem.action_name}</td>
                                 <td>{historyItem.created_at}</td>
                                 <td>{historyItem.cost} credits</td>
+                                <td>
+                                    <button class="btn btn-link">
+                                        <a href="/account/history/{historyItem.id}">View</a>
+                                    </button>
+                                </td>
                             </tr>
                         {/each}
                     </tbody>

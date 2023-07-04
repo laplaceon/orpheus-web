@@ -20,6 +20,10 @@ export const getUserHistory = (id: number): Promise<Response> => {
     return fetch(`${apiBaseUrl}/users/${id}/history`);
 };
 
+export const getUserHistoryItem = (id: number): Promise<Response> => {
+    return fetch(`${apiBaseUrl}/history/${id}`);
+};
+
 export const getActions = (): Promise<Response> => {
     return fetch(`${apiBaseUrl}/actions`);
 };
