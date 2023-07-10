@@ -2,6 +2,7 @@
     import { signOut } from "@auth/sveltekit/client"
     import { page } from "$app/stores"
     import { SvelteToast } from '@zerodevx/svelte-toast'
+    import favicon from "$lib/assets/favicon.png";
 </script>
 
 <svelte:head>
@@ -11,7 +12,10 @@
 
 <nav class="navbar">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">TuneForge</a>
+        <a class="navbar-brand" href="/">
+            <!-- <img src={favicon} alt="Logo" width="30" height="24" class="d-inline-block align-text-middle"> -->
+            TuneForge
+        </a>
         <div class="navbar-expand" id="navbarNav">
             <ul class="navbar-nav">
                 {#if $page.data.session}

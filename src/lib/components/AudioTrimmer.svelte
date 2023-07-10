@@ -1,7 +1,8 @@
 <script lang="ts">
     import TimePicker from "./TimePicker.svelte";
     import WaveSurfer from "wavesurfer.js";
-    import RegionsPlugin, { Region } from "wavesurfer.js/dist/plugins/regions.js"
+    import RegionsPlugin from "wavesurfer.js/dist/plugins/regions.js"
+    import type Region from "wavesurfer.js/dist/plugins/regions.js"
     import * as mm from "music-metadata-browser";
     import { toast } from '@zerodevx/svelte-toast'
     import { onMount } from "svelte";
@@ -169,7 +170,7 @@
 <div id="trimmer">
     <input bind:files={audio_files}
         class="form-control form-control-lg mb-2"
-        accept="audio/mpeg, audio/wave, audio/ogg"
+        accept="audio/mpeg, audio/wav, audio/ogg"
         name="audio"
         type="file"
     />

@@ -1,8 +1,21 @@
-<script>
+<script lang="ts">
+    import { Turnstile } from 'svelte-turnstile';
     import { signIn } from "@auth/sveltekit/client"
     import { page } from "$app/stores"
 
     const userCreated = $page.url.searchParams.has("userCreated")
+
+    let cfResponseToken: string = '';
+
+    $: canLogin = cfResponseToken != '';
+
+    function setCfToken(event: CustomEvent) {
+        cfResponseToken = event.detail.token
+    }
+
+    function signInW(provider) {
+        signIn(provider, null, {turnstile_key: cfResponseToken});
+    }
 </script>
 
 <style>
@@ -35,10 +48,11 @@
             </button>
         </div> -->
         <div class="row m-2">
-            <button class="btn btn-outline-dark btn-login" on:click={() => signIn("discord")}>
+            <button class="btn btn-outline-dark btn-login" disabled={!canLogin} on:click={() => signInW("discord")}>
                 <img alt="Discord sign-in" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" />
                 Sign in with Discord
             </button>
         </div>
-    </div>  
+    </div>
+    <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" on:turnstile-callback={setCfToken} />
 </div>

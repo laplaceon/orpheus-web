@@ -12,18 +12,18 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.1.0",
 		"@sveltejs/adapter-cloudflare": "^2.3.0",
-		"@sveltejs/kit": "^1.21.0",
+		"@sveltejs/kit": "^1.22.1",
 		"svelte": "^3.59.2",
-		"svelte-check": "^3.4.4",
+		"svelte-check": "^3.4.5",
 		"svelte-range-slider-pips": "^2.1.1",
 		"tslib": "^2.6.0",
 		"typescript": "^5.1.6",
-		"vite": "^4.3.9"
+		"vite": "^4.4.2"
 	},
 	"type": "module",
 	"dependencies": {
 		"@auth/core": "^0.8.4",
-		"@auth/sveltekit": "^0.3.3",
+		"@auth/sveltekit": "^0.3.5",
 		"@esbuild-plugins/node-globals-polyfill": "^0.2.3",
 		"@esbuild-plugins/node-modules-polyfill": "^0.2.2",
 		"@zerodevx/svelte-toast": "^0.9.5",
@@ -31,6 +31,6 @@
 		"rollup-plugin-polyfill-node": "^0.12.0",
 		"slugify": "^1.6.6",
 		"svelte-turnstile": "^0.4.2",
-		"wavesurfer.js": "^7.0.0-beta.11"
+		"wavesurfer.js": "^7.0.0"
 	}
 }

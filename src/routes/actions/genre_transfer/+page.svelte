@@ -3,7 +3,7 @@
     import AudioTrimmer from "$lib/components/AudioTrimmer.svelte";
     import slugify from "slugify";
 
-    import { getActions } from "$lib/api";
+    import { getActions, pushGenreTransferActionRequest } from "$lib/api";
 
     import { bufferToWave } from "$lib/audio_helpers";
 
@@ -32,8 +32,11 @@
 
     let url: string = '';
 
+    let fileReader: FileReader;
+
     onMount(async () => {
         audioCtx = new window.AudioContext();
+        fileReader = new window.FileReader();
 
         const res = await getActions();
         const actions = await res.json();
@@ -45,6 +48,10 @@
                 amount: genreTransfer[0].cost,
                 unit: genreTransfer[0].length,
             }
+        }
+
+        fileReader.onloadend = async function() {
+            await pushGenreTransferActionRequest(1, fileReader.result);
         }
     });
 
@@ -72,6 +79,8 @@
 
         console.log(selectedGenres);
         loading = false;
+
+        fileReader.readAsDataURL(blob);
     }
 
 </script>

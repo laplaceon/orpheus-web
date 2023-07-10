@@ -28,3 +28,28 @@ export const getActions = (): Promise<Response> => {
     return fetch(`${apiBaseUrl}/actions`);
 };
 
+export const pushGenreTransferActionRequest = (user_id: number, url: any): Promise<Response> => {
+    const payload = {
+        "user_id": user_id,
+        "data": url
+    }
+
+    return fetch(`${apiBaseUrl}/actions/genretransfer`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+    }); 
+};
+
+export const pushContinuationActionRequest = (user_id: number, url: any): Promise<Response> => {
+    const payload = {
+        "user_id": user_id,
+        "data": url
+    }
+
+    return fetch(`${apiBaseUrl}/actions/continuation`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+    }); 
+};
+
+

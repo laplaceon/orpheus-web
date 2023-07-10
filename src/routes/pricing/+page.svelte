@@ -24,7 +24,7 @@
                         <hr />
                         <ul>
                             <li>10 monthly credits</li>
-                            <li>API access</li>
+                            <li>Generated outputs available for 24 hours</li>
                         </ul>
                     </div>
                 </div>
@@ -37,17 +37,16 @@
                         <hr />
                         <ul>
                             <li>50 monthly credits</li>
-                            <li>API access</li>
-                            <li>Generated outputs available for longer</li>
+                            <li>Generated outputs available for 72 hours</li>
                             <!-- <li>Access to TuneForge Radio</li> -->
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <p>Additional credits are available for $10 / 100 credits</p>
-            <p>Credits included in plan expire and refresh every month. Additional purchased credits never expire.</p>
+        <div class="row mt-2">
+            <p>Additional credits are available for $10 / 100 credits.<br>
+            Credits included in plan expire and refresh every month. Additional purchased credits never expire.</p>
         </div>
         <div class="row">
             <table class="table">
