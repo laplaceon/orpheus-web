@@ -1,8 +1,20 @@
 <script lang="ts">
     import { signOut } from "@auth/sveltekit/client"
-    import { page } from "$app/stores"
     import { SvelteToast } from '@zerodevx/svelte-toast'
     import favicon from "$lib/assets/favicon.png";
+    import { page } from "$app/stores";
+
+    function signOutW() {
+        try {
+            console.log("lgotu");
+            // jwt.set("");
+        } catch (error) {
+            console.log(error);
+        }
+        
+        signOut();
+    }
+
 </script>
 
 <svelte:head>
@@ -13,7 +25,7 @@
 <nav class="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
-            <!-- <img src={favicon} alt="Logo" width="30" height="24" class="d-inline-block align-text-middle"> -->
+            <img src={favicon} alt="Logo" width="30" height="24" class="d-inline-block align-text-middle">
             TuneForge
         </a>
         <div class="navbar-expand" id="navbarNav">
@@ -25,7 +37,7 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="btn btn-link" on:click={() => signOut()}>
+                        <button type="button" class="btn btn-link" on:click={() => signOutW()}>
                             Sign out
                         </button>
                     </li>

@@ -79,6 +79,7 @@
                 end: ws.getDuration() / 2,
                 content: 'Transform this part',
                 color: 'rgba(255, 0, 200, 0.4)',
+                minLength: 1,
             });
 
             activeRegion.on('update', () => {
@@ -108,9 +109,6 @@
     });
 
     $: if (audio_files) {
-        // Note that `files` is of type `FileList`, not an Array:
-        // https://developer.mozilla.org/en-US/docs/Web/API/FileList
-
         mm.parseBlob(audio_files[0]).then(metadata => {
             console.log(metadata);
 
