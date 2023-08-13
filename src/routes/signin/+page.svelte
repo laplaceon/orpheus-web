@@ -1,7 +1,10 @@
 <script lang="ts">
     import { Turnstile } from 'svelte-turnstile';
-    import { signIn } from "@auth/sveltekit/client"
+    import { signIn } from "$lib/auth"
     import { page } from "$app/stores"
+
+    let email: string = '';
+    let password: string = '';
 
     const userCreated = $page.url.searchParams.has("userCreated")
 
@@ -12,10 +15,6 @@
     function setCfToken(event: CustomEvent) {
         cfResponseToken = event.detail.token
     }
-
-    function signInW(provider) {
-        signIn(provider, null, {turnstile_key: cfResponseToken});
-    }
 </script>
 
 <style>
@@ -24,11 +23,11 @@
         padding: 12px;
     }
 
-    .btn-login > img {
+    /* .btn-login > img {
         width: 20px;
         margin-bottom: 3px;
         margin-right: 5px;
-    }
+    } */
 </style>
 
 <div class="row justify-content-md-center">
@@ -41,12 +40,25 @@
             </div>
         {/if}
 
-        <div class="row m-2">
-            <button class="btn btn-outline-dark btn-login" disabled={!canLogin} on:click={() => signInW("discord")}>
-                <img alt="Discord sign-in" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" />
-                Sign in with Discord
-            </button>
+        <div class="row justify-content-center">
+            <div class="col-md-auto text-center">
+                <input type="text" class="form-control mb-2" placeholder="Email" bind:value={email} />
+                <input type="password" class="form-control mb-2" placeholder="Password" bind:value={password} />
+        
+                <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" on:turnstile-callback={setCfToken} />
+        
+                <div>
+                    <button class="btn btn-outline-dark btn-login mt-1" disabled={!canLogin} type="submit" on:click={() => signIn( email, password, cfResponseToken )}>
+                        Sign in
+                    </button>
+                    <p class="mt-1">
+                        or you can register <a href="/signin/register">here</a>
+                    </p>
+                </div>
+
+            </div>
+        
         </div>
-        <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" on:turnstile-callback={setCfToken} />
+        
     </div>
 </div>

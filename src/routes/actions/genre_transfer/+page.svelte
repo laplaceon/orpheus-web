@@ -1,22 +1,12 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import AudioTrimmer from "$lib/components/AudioTrimmer.svelte";
-    import slugify from "slugify";
+
 
     import { getActions, pushGenreTransferActionRequest } from "$lib/api";
 
     import { bufferToWave } from "$lib/audio_helpers";
-
-    const genres = [
-        "Classical",
-        "Electronic",
-        "Hip Hop",
-        "Jazz",
-        "Metal",
-        "Pop",
-        "R&B",
-        "Rock"
-    ].map(genre => ({ slug: slugify(genre, { strict: true, lower: true }), text: genre, selected: false }));
+    import GenrePicker from "$lib/components/GenrePicker.svelte";
 
     let segmentLength = 0;
     
@@ -61,8 +51,6 @@
         creditsCost = Math.ceil((cost.amount * (segmentLength / cost.unit)) * 100) / 100;
     }
 
-    $: selectedGenres = genres.filter(genre => genre.selected).map(genre => genre.slug);
-
     async function generate() {
         loading = true;
         // await new Promise(() => {
@@ -77,7 +65,7 @@
 
         console.log(url);
 
-        console.log(selectedGenres);
+        // console.log(selectedGenres);
         loading = false;
 
         fileReader.readAsDataURL(blob);
@@ -104,15 +92,8 @@
     </div>
     <div class="col">
         <h4>Step 2: Choose genre</h4>
-        {#each genres as genre}
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="{genre.slug}" id="check_{genre.slug}" bind:checked={genre.selected}>
-                <label class="form-check-label" for="check_{genre.slug}">{genre.text}</label>
-            </div>
-        {/each}
-        {#if selectedGenres.length >= 3}
-            <p>Selecting 3 or more genres might not sound as coherent compared to 1 or 2 genres.</p>
-        {/if}
+        <GenrePicker />
+
     </div>
     <div class="col">
         <h4>Step 3: Generate and download</h4>
