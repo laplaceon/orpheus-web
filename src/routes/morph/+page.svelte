@@ -6,7 +6,7 @@
     import { getActions, pushGenreTransferActionRequest } from "$lib/api";
 
     import { bufferToWave } from "$lib/audio_helpers";
-    import GenrePicker from "$lib/components/GenrePicker.svelte";
+    import TagPicker from "$lib/components/TagPicker.svelte";
 
     let segmentLength = 0;
     
@@ -14,6 +14,17 @@
         amount: 0,
         unit: 0
     };
+
+    const genres = [
+        "Classical",
+        "Electronic",
+        "Hip Hop",
+        "Jazz",
+        "Metal",
+        "Pop",
+        "R&B",
+        "Rock"
+    ];
 
     let loading = false;
     let updatingDecoded = false;
@@ -92,7 +103,7 @@
     </div>
     <div class="col">
         <h4>Step 2: Choose genre</h4>
-        <GenrePicker />
+        <TagPicker tags={genres} />
 
     </div>
     <div class="col">

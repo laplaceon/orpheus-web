@@ -12,19 +12,27 @@
     function setCfToken(event: CustomEvent) {
         cfResponseToken = event.detail.token
     }
+    
+    let form;
+
+    function tryRegisterAccount() {
+        form.classList.add('was-validated');
+        if (form.checkValidity()) {
+            registerAccount(email, password, cfResponseToken);
+        }
+    }
 </script>
 
 <div class="row justify-content-center">
-    <div class="col-md-auto text-center">
-        <input type="text" class="form-control mb-2" placeholder="Email" bind:value={email} />
-        <input type="password" class="form-control mb-2" placeholder="Password" bind:value={password} />
-        <input type="password" class="form-control mb-2" placeholder="Confirm Password" bind:value={password_confirm} />
+    <form bind:this={form} class="col-md-auto text-center needs-validation" novalidate>
+        <input type="text" class="form-control mb-2" placeholder="Email" bind:value={email} required />
+        <input type="password" class="form-control mb-2" placeholder="Password" bind:value={password} required />
+        <input type="password" class="form-control mb-2" placeholder="Confirm Password" bind:value={password_confirm} required />
 
         <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" on:turnstile-callback={setCfToken} />
 
-        <button class="btn btn-outline-dark btn-login mt-1" disabled={!canRegister} on:click={() => { registerAccount(email, password, cfResponseToken) }}>
+        <button class="btn btn-outline-dark btn-login mt-1" disabled={!canRegister} on:click={() => { tryRegisterAccount() }}>
             Register account
         </button>
-    </div>
-
+    </form>
 </div>

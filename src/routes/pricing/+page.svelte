@@ -38,7 +38,20 @@
                         <ul>
                             <li>50 monthly credits</li>
                             <li>Generated outputs available for 72 hours</li>
-                            <!-- <li>Access to TuneForge Radio</li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg">
+                <div class="card mb-5 mb-lg-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Artist</h5>
+                        <h6 class="card-title">$15 / month</h6>
+                        <hr />
+                        <ul>
+                            <li>150 monthly credits</li>
+                            <li>Generated outputs available for 168 hours</li>
+                            <li>Unlimited access to TuneForge Radio</li>
                         </ul>
                     </div>
                 </div>

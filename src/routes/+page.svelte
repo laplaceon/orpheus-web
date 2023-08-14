@@ -3,7 +3,10 @@
         <h2>Hear something never heard before</h2>
     </div>
     <div class="row">
-        <h4><a href="/actions/genre_transfer">Genre Transfer</a> - Change the genre of your uploaded music</h4>
+        <h4><a href="/radio">Radio</a> - Remix your music in realtime</h4>
+    </div>
+    <div class="row">
+        <h4><a href="/morph">Morph</a> - Change the genre of your uploaded music</h4>
     </div>
     <div class="row row-cols-auto justify-content-between mb-3">
         <div class="col">
@@ -41,7 +44,7 @@
         </div>
     </div>
     <div class="row">
-        <h4><a href="/actions/continuation">Continuation</a> - Generate possible continuations of your uploaded music</h4>
+        <h4><a href="/continue">Continue</a> - Generate possible continuations of your uploaded music</h4>
     </div>
     <div class="row mb-3">
         <div class="col">

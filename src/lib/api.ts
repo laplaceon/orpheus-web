@@ -1,9 +1,10 @@
 const apiBaseUrl = "http://127.0.0.1:8080/v1"
 
-export const createUserWithEmail = (email: string, cfToken: string): Promise<Response> => {
+export const createUserWithEmail = (email: string, password: string, cf_token: string): Promise<Response> => {
     const payload = {
         "email": email,
-        "cf_token": cfToken
+        "password": password,
+        "cf_token": cf_token
     }
 
     return fetch(`${apiBaseUrl}/users`, {
