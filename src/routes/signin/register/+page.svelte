@@ -19,7 +19,7 @@
     let form;
 
     onMount(() => {
-        console.log(form);
+        toast.push('Sorry, but can only process 44.1KHz audio');
     });
 
     const registerAccountSchema = z.object({
@@ -45,7 +45,6 @@
     }
     
     async function tryRegisterAccount() {
-        // console.log(form[0].classList.add("valid"));
         const result = registerAccountSchema.safeParse({email, password, password_confirm});
         
         let invalidItems = new Set();
@@ -60,7 +59,7 @@
 
             errorsList = errorMessages;
 
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < Object.keys(inputMap).length; i++) {
                 if (invalidItems.has(i)) {
                     form[i].classList.add("is-invalid");
                 } else {
@@ -69,14 +68,10 @@
             }
         } else {
             errorsList = [];
-            invalidItems.clear();
 
-            for (let i = 0; i < 3; i++) {
-                if (invalidItems.has(i)) {
-                    form[i].classList.add("is-invalid");
-                } else {
-                    form[i].classList.add("is-valid");
-                }
+            for (let i = 0; i < Object.keys(inputMap).length; i++) {
+                form[i].classList.remove("is-invalid");
+                form[i].classList.add("is-valid");
             }
 
             let response = await registerAccount(email, password, cfResponseToken);

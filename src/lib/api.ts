@@ -13,8 +13,17 @@ export const createUserWithEmail = (email: string, password: string, cf_token: s
     });
 }
 
-export const getUserWithEmail = (email: string): Promise<Response> => {
-    return fetch(`${apiBaseUrl}/users/auth/${email}`);
+export const getUserWithEmail = (email: string, password: string, cf_token: string): Promise<Response> => {
+    const payload = {
+        "email": email,
+        "password": password,
+        "cf_token": cf_token
+    }
+
+    return fetch(`${apiBaseUrl}/users/auth`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+    });
 };
 
 export const getUserHistory = (id: number): Promise<Response> => {

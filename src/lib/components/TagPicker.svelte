@@ -20,5 +20,5 @@
     </div>
 {/each}
 {#if selectedTags.length >= 3}
-    <p>Selecting 3 or more tags might not sound as coherent compared to 1 or 2 genres.</p>
+    <p>Selecting 3 or more tags might not sound as coherent compared to 1 or 2.</p>
 {/if}

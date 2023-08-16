@@ -2,6 +2,7 @@
     import AccountHeader from "$lib/components/AccountHeader.svelte";
     import { getUserHistory } from "$lib/api";
 	import { onMount } from 'svelte';
+    import { user as userToken } from "$lib/auth";
 
     let history: HistoryItem[] = [];
     let user_id = 1;
@@ -21,6 +22,9 @@
 </script>
 
 <AccountHeader {user} />
+
+{$userToken.token}
+
 
 <div class="row">
     <div class="d-flex align-items-start">

@@ -1,8 +1,9 @@
 <script lang="ts">
     import { Turnstile } from 'svelte-turnstile';
-    import { signIn } from "$lib/auth"
+    import { signIn, signInWithToken } from "$lib/auth"
     import { page } from "$app/stores"
     import { z } from 'zod';
+    import { goto } from '$app/navigation';
 
     let email: string = '';
     let password: string = '';
@@ -17,17 +18,62 @@
         cfResponseToken = event.detail.token
     }
 
-    const loginAccountSchema = z.object({
+    let signinErrors = [];
+
+    const signinAccountSchema = z.object({
         email: z.string().email(),
         password: z.string().min(6),
     });
 
     let form;
 
-    function trySignIn() {
-        form.classList.add('was-validated');
-        if (form.checkValidity()) {
-            signIn(email, password, cfResponseToken)
+    const inputMap = {
+        "email": 0,
+        "password": 1
+    }
+
+    async function trySignIn() {
+        const result = signinAccountSchema.safeParse({email, password});
+
+        let invalidItems = new Set();
+
+        if (!result.success) {
+            const errors = result.error.issues;
+            let errorMessages: string[] = []
+            errors.forEach(item => {
+                errorMessages.push(item.message);
+                invalidItems.add(inputMap[item.path[0]]);
+            });
+
+            signinErrors = errorMessages;
+
+            for (let i = 0; i < Object.keys(inputMap).length; i++) {
+                if (invalidItems.has(i)) {
+                    form[i].classList.add("is-invalid");
+                } else {
+                    form[i].classList.add("is-valid");
+                }
+            }
+        } else {
+            signinErrors = [];
+            
+            for (let i = 0; i < Object.keys(inputMap).length; i++) {
+                form[i].classList.remove("is-invalid");
+                form[i].classList.add("is-valid");
+            }
+
+            let response = await signIn(email, password, cfResponseToken);
+            let body = await response.json();
+            
+            if (response.status != 200) {     
+                signinErrors = [body.error];
+            } else {
+                signinErrors = [];
+
+                signInWithToken(body.token);
+
+                goto("/");
+            }
         }
     }
     
@@ -50,6 +96,18 @@
             </div>
         {/if}
 
+        {#if signinErrors.length > 0}
+            <div class="row">
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        {#each signinErrors as signinError}
+                            <li>{signinError}</li>
+                        {/each}
+                    </ul>
+                </div>              
+            </div>
+        {/if}
+
         <div class="row justify-content-center">
             <form bind:this={form} class="col-md-auto text-center needs-validation" novalidate>
                 <input type="email" class="form-control mb-2" placeholder="Email" bind:value={email} required />
@@ -58,7 +116,7 @@
                 <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" on:turnstile-callback={setCfToken} />
         
                 <div>
-                    <button class="btn btn-outline-dark btn-login mt-1" disabled={!canLogin} type="submit" on:click|preventDefault={() => trySignIn()}>
+                    <button class="btn btn-outline-dark btn-login mt-1" disabled={!canLogin} type="submit" on:click|preventDefault|stopPropagation={() => trySignIn()}>
                         Sign in
                     </button>
                     <p class="mt-1">

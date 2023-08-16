@@ -1,19 +1,8 @@
 <script lang="ts">
-    import { signOut } from "@auth/sveltekit/client"
     import { SvelteToast } from '@zerodevx/svelte-toast'
     import favicon from "$lib/assets/favicon.png";
-    import { page } from "$app/stores";
-
-    function signOutW() {
-        try {
-            console.log("lgotu");
-            // jwt.set("");
-        } catch (error) {
-            console.log(error);
-        }
-        
-        signOut();
-    }
+    import { user } from "$lib/auth";
+    import { signOut } from "$lib/auth";
 
 </script>
 
@@ -30,14 +19,14 @@
         </a>
         <div class="navbar-expand" id="navbarNav">
             <ul class="navbar-nav">
-                {#if $page.data.session}
+                {#if $user.token}
                     <li class="nav-item">
                         <button type="button" class="btn btn-link">
                             <a href="/account">Account</a>
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="btn btn-link" on:click={() => signOutW()}>
+                        <button type="button" class="btn btn-link" on:click={() => signOut()}>
                             Sign out
                         </button>
                     </li>
