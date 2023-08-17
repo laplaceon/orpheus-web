@@ -2,7 +2,6 @@
     import { Turnstile } from 'svelte-turnstile';
     import { registerAccount } from '$lib/auth';
     import { z } from 'zod';
-    import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
 
     let email = '';
@@ -17,10 +16,6 @@
     }
 
     let form;
-
-    onMount(() => {
-        toast.push('Sorry, but can only process 44.1KHz audio');
-    });
 
     const registerAccountSchema = z.object({
         email: z.string().email(),
@@ -85,7 +80,6 @@
                 goto("/signin?userCreated")
             }
         }
-
     }
 </script>
 

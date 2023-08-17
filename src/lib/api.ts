@@ -26,19 +26,23 @@ export const getUserWithEmail = (email: string, password: string, cf_token: stri
     });
 };
 
-export const getUserHistory = (id: number): Promise<Response> => {
-    return fetch(`${apiBaseUrl}/users/${id}/history`);
+export const getUserHistory = (id: number, jwt: string): Promise<Response> => {
+    return fetch(`${apiBaseUrl}/users/${id}/history`, {
+        headers: { "Authorization": `Bearer ${jwt}` }
+    });
 };
 
-export const getUserHistoryItem = (id: number): Promise<Response> => {
-    return fetch(`${apiBaseUrl}/history/${id}`);
+export const getUserHistoryItem = (id: number, jwt: string): Promise<Response> => {
+    return fetch(`${apiBaseUrl}/history/${id}`, {
+        headers: { "Authorization": `Bearer ${jwt}` }
+    });
 };
 
 export const getActions = (): Promise<Response> => {
     return fetch(`${apiBaseUrl}/actions`);
 };
 
-export const pushGenreTransferActionRequest = (user_id: number, url: any): Promise<Response> => {
+export const pushGenreTransferActionRequest = (user_id: number, url: any, jwt: string): Promise<Response> => {
     const payload = {
         "user_id": user_id,
         "data": url
@@ -47,10 +51,11 @@ export const pushGenreTransferActionRequest = (user_id: number, url: any): Promi
     return fetch(`${apiBaseUrl}/actions/genretransfer`, {
         method: "POST",
         body: JSON.stringify(payload),
+        headers: { "Authorization": `Bearer ${jwt}` },
     }); 
 };
 
-export const pushContinuationActionRequest = (user_id: number, url: any): Promise<Response> => {
+export const pushContinuationActionRequest = (user_id: number, url: any, jwt: string): Promise<Response> => {
     const payload = {
         "user_id": user_id,
         "data": url
@@ -59,6 +64,7 @@ export const pushContinuationActionRequest = (user_id: number, url: any): Promis
     return fetch(`${apiBaseUrl}/actions/continuation`, {
         method: "POST",
         body: JSON.stringify(payload),
+        headers: { "Authorization": `Bearer ${jwt}` },
     }); 
 };
 

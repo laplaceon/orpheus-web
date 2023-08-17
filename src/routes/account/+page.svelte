@@ -2,29 +2,26 @@
     import AccountHeader from "$lib/components/AccountHeader.svelte";
     import { getUserHistory } from "$lib/api";
 	import { onMount } from 'svelte';
-    import { user as userToken } from "$lib/auth";
+    import { user } from "$lib/auth";
+    import jwt_decode from "jwt-decode";
+    import { construct_svelte_component } from "svelte/internal";
 
     let history: HistoryItem[] = [];
     let user_id = 1;
 
     onMount(async () => {
-        const res = await getUserHistory(user_id);
+        user_id = jwt_decode($user.token).id;
+
+        const res = await getUserHistory(user_id, $user.token);
+        console.log(res)
         history = await res.json();
     });
 
-    let user = {
-        id: 1,
-        email: "adad@gmail.com",
-        plan_id: 1,
-        credits_usable: 12
-    };
+    
 
 </script>
 
-<AccountHeader {user} />
-
-{$userToken.token}
-
+<!-- <AccountHeader {user_id} /> -->
 
 <div class="row">
     <div class="d-flex align-items-start">
@@ -40,14 +37,15 @@
                             <th scope="col">Action</th>
                             <th scope="col">Time</th>
                             <th scope="col">Cost</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {#each history as historyItem}
                             <tr>
-                                <td>{historyItem.action_name}</td>
-                                <td>{historyItem.created_at}</td>
-                                <td>{historyItem.cost} credits</td>
+                                <td class="align-middle">{historyItem.action_name}</td>
+                                <td class="align-middle">{historyItem.created_at}</td>
+                                <td class="align-middle">{historyItem.cost} credits</td>
                                 <td>
                                     <button class="btn btn-link">
                                         <a href="/account/history/{historyItem.id}">View</a>
