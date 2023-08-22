@@ -2,26 +2,27 @@
     import AccountHeader from "$lib/components/AccountHeader.svelte";
     import { getUserHistory } from "$lib/api";
 	import { onMount } from 'svelte';
-    import { user } from "$lib/auth";
-    import jwt_decode from "jwt-decode";
-    import { construct_svelte_component } from "svelte/internal";
+    import { user as _user } from "$lib/auth";
+
+    let user: User = {
+        id: 0,
+        email: "",
+        verified: false
+        
+    };
 
     let history: HistoryItem[] = [];
-    let user_id = 1;
 
     onMount(async () => {
-        user_id = jwt_decode($user.token).id;
+        user = $_user.user;
 
-        const res = await getUserHistory(user_id, $user.token);
-        console.log(res)
+        const res = await getUserHistory(user.id, $_user.token);
         history = await res.json();
     });
 
-    
-
 </script>
 
-<!-- <AccountHeader {user_id} /> -->
+<AccountHeader {user} />
 
 <div class="row">
     <div class="d-flex align-items-start">

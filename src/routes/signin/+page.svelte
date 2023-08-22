@@ -1,9 +1,16 @@
 <script lang="ts">
     import { Turnstile } from 'svelte-turnstile';
-    import { signIn, signInWithToken } from "$lib/auth"
+    import { user, signIn, signInWithToken } from "$lib/auth"
     import { page } from "$app/stores"
     import { z } from 'zod';
     import { goto } from '$app/navigation';
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        if ($user.token) {
+            goto("/");
+        }
+    })
 
 
     let email: string = '';
@@ -18,6 +25,8 @@
     function setCfToken(event: CustomEvent) {
         cfResponseToken = event.detail.token
     }
+
+    let turnstile: Turnstile;
 
     let signinErrors = [];
 
@@ -55,6 +64,8 @@
                     form[i].classList.add("is-valid");
                 }
             }
+
+            turnstile.reset()
         } else {
             signinErrors = [];
             
@@ -68,6 +79,7 @@
             
             if (response.status != 200) {     
                 signinErrors = [body.error];
+                turnstile.reset();
             } else {
                 signinErrors = [];
 
@@ -92,7 +104,7 @@
         {#if userCreated}
             <div class="row">
                 <div class="alert alert-primary" role="alert">
-                    Your account has been created! Now you can sign in.
+                    Your account has been created! Now you can sign in. In order to use any features, you must verify your email address.
                 </div>              
             </div>
         {/if}
@@ -114,7 +126,7 @@
                 <input type="email" class="form-control mb-2" placeholder="Email" bind:value={email} required />
                 <input type="password" class="form-control mb-2" placeholder="Password" bind:value={password} required />
         
-                <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" on:turnstile-callback={setCfToken} />
+                <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" bind:this={turnstile} on:turnstile-callback={setCfToken} />
         
                 <div>
                     <button class="btn btn-outline-dark btn-login mt-1" disabled={!canLogin} type="submit" on:click|preventDefault|stopPropagation={() => trySignIn()}>

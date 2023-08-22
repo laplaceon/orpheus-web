@@ -1,8 +1,9 @@
 <script lang="ts">
     import { Turnstile } from 'svelte-turnstile';
-    import { registerAccount } from '$lib/auth';
+    import { registerAccount, user } from '$lib/auth';
     import { z } from 'zod';
     import { goto } from '$app/navigation';
+    import { onMount } from 'svelte';
 
     let email = '';
     let password = '';
@@ -11,9 +12,17 @@
 
     $: canRegister = cfResponseToken != '';
 
+    onMount(() => {
+        if ($user.token) {
+            goto("/");
+        }
+    })
+
     function setCfToken(event: CustomEvent) {
         cfResponseToken = event.detail.token
     }
+
+    let turnstile: Turnstile;
 
     let form;
 
@@ -61,6 +70,8 @@
                     form[i].classList.add("is-valid");
                 }
             }
+
+            turnstile.reset()
         } else {
             errorsList = [];
 
@@ -74,6 +85,7 @@
             if (response.status != 201) {
                 let body = await response.json();
                 errorsList = [body.error];
+                turnstile.reset();
             } else {
                 errorsList = [];
 
@@ -101,7 +113,7 @@
         <input type="password" class="form-control mb-2" placeholder="Password" bind:value={password} required />
         <input type="password" class="form-control mb-2" placeholder="Confirm Password" bind:value={password_confirm} required />
 
-        <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" on:turnstile-callback={setCfToken} />
+        <Turnstile siteKey="0x4AAAAAAAGIT3J8MSaALfWK" bind:this={turnstile} on:turnstile-callback={setCfToken} />
 
         <button class="btn btn-outline-dark btn-login mt-1" disabled={!canRegister} on:click|preventDefault|stopPropagation={() => tryRegisterAccount()}>
             Register account

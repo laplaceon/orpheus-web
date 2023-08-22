@@ -3,8 +3,22 @@
     import favicon from "$lib/assets/favicon.png";
     import { user } from "$lib/auth";
     import { signOut } from "$lib/auth";
+    import { onMount } from 'svelte';
+    import { toast } from '@zerodevx/svelte-toast'
+
+    onMount(() => {
+        if (true) {
+            toast.push(`You need to verify your email address. An email has been sent to ${$user.user.email}`, {
+                initial: 0
+            })
+        }
+
+    });
 
 </script>
+
+<style>
+</style>
 
 <svelte:head>
 	<title>TuneForge</title>
@@ -40,18 +54,13 @@
             </ul>
         </div>
     </div>
-
 </nav>
 
 <div id="content" class="container-fluid">
     <slot />
 </div>
 
-<SvelteToast />
 
-<style>
-    /* nav.navbar {
-        background-color: black;
-        color: white;
-    } */
-</style>
+  
+
+<SvelteToast />
