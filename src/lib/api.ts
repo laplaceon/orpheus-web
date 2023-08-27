@@ -26,6 +26,12 @@ export const getUserWithEmail = (email: string, password: string, cf_token: stri
     });
 };
 
+export const getUserWithId = (id: number, jwt: string): Promise<Response> => {
+    return fetch(`${apiBaseUrl}/users/${id}`, {
+        headers: { "Authorization": `Bearer ${jwt}` }
+    });
+};
+
 export const getUserHistory = (id: number, jwt: string): Promise<Response> => {
     return fetch(`${apiBaseUrl}/users/${id}/history`, {
         headers: { "Authorization": `Bearer ${jwt}` }

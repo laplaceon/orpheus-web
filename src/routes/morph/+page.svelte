@@ -26,6 +26,8 @@
         "Rock"
     ];
 
+    let selectedTags = [];
+
     let loading = false;
     let updatingDecoded = false;
     let decodedSegment: Float32Array;
@@ -61,6 +63,8 @@
     $: if (cost.amount != 0 && cost.unit != 0) {
         creditsCost = Math.ceil((cost.amount * (segmentLength / cost.unit)) * 100) / 100;
     }
+
+    $: ready = selectedTags.length > 0 && decodedSegment?.length > 0
 
     async function generate() {
         loading = true;
@@ -103,12 +107,12 @@
     </div>
     <div class="col">
         <h4>Step 2: Choose genre</h4>
-        <TagPicker tags={genres} />
+        <TagPicker tags={genres} bind:selectedTags />
 
     </div>
     <div class="col">
         <h4>Step 3: Generate and download</h4>
-        <button class="btn btn-primary" disabled={loading} on:click={() => generate()}>
+        <button class="btn btn-primary" disabled={loading || !ready} on:click={() => generate()}>
             {#if loading}
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Generating...

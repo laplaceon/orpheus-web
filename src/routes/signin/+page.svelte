@@ -1,17 +1,8 @@
 <script lang="ts">
     import { Turnstile } from 'svelte-turnstile';
-    import { user, signIn, signInWithToken } from "$lib/auth"
+    import { signIn } from '@auth/sveltekit/client';
     import { page } from "$app/stores"
     import { z } from 'zod';
-    import { goto } from '$app/navigation';
-    import { onMount } from 'svelte';
-
-    onMount(() => {
-        if ($user.token) {
-            goto("/");
-        }
-    })
-
 
     let email: string = '';
     let password: string = '';
@@ -74,19 +65,7 @@
                 form[i].classList.add("is-valid");
             }
 
-            let response = await signIn(email, password, cfResponseToken);
-            let body = await response.json();
-            
-            if (response.status != 200) {     
-                signinErrors = [body.error];
-                turnstile.reset();
-            } else {
-                signinErrors = [];
-
-                signInWithToken(body.token);
-
-                goto("/");
-            }
+            signIn("credentials", {}, {email: email, password: password, cf_token: cfResponseToken})
         }
     }
     

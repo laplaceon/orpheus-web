@@ -5,6 +5,8 @@
     export let tags;
     let tagSlugs = [];
 
+    export let selectedTags = [];
+
     onMount(() => {
         tagSlugs = tags.map(tag => ({ slug: slugify(tag, { strict: true, lower: true }), text: tag, selected: false }));
     });

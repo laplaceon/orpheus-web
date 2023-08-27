@@ -1,9 +1,8 @@
 <script lang="ts">
     import { Turnstile } from 'svelte-turnstile';
-    import { registerAccount, user } from '$lib/auth';
+    import { registerAccount } from '$lib/auth';
     import { z } from 'zod';
     import { goto } from '$app/navigation';
-    import { onMount } from 'svelte';
 
     let email = '';
     let password = '';
@@ -11,12 +10,6 @@
     let cfResponseToken = '';
 
     $: canRegister = cfResponseToken != '';
-
-    onMount(() => {
-        if ($user.token) {
-            goto("/");
-        }
-    })
 
     function setCfToken(event: CustomEvent) {
         cfResponseToken = event.detail.token

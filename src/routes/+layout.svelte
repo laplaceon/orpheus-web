@@ -1,24 +1,10 @@
 <script lang="ts">
     import { SvelteToast } from '@zerodevx/svelte-toast'
     import favicon from "$lib/assets/favicon.png";
-    import { user } from "$lib/auth";
-    import { signOut } from "$lib/auth";
-    import { onMount } from 'svelte';
-    import { toast } from '@zerodevx/svelte-toast'
-
-    onMount(() => {
-        if (true) {
-            toast.push(`You need to verify your email address. An email has been sent to ${$user.user.email}`, {
-                initial: 0
-            })
-        }
-
-    });
+    import { page } from '$app/stores';
+    import { signOut } from "@auth/sveltekit/client";
 
 </script>
-
-<style>
-</style>
 
 <svelte:head>
 	<title>TuneForge</title>
@@ -33,7 +19,7 @@
         </a>
         <div class="navbar-expand" id="navbarNav">
             <ul class="navbar-nav">
-                {#if $user.token}
+                {#if $page.data.session}
                     <li class="nav-item">
                         <button type="button" class="btn btn-link">
                             <a href="/account">Account</a>
