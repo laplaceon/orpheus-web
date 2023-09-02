@@ -14,7 +14,7 @@
     </div>
     <div class="col">
         <div class="row row-cols-auto">
-            <h5>Usable credits left: {user.credits_usable}</h5>
+            <h5>Usable credits left: <span class="badge bg-secondary">{user.usable_credits}</span></h5>
             <h5>Current Plan: {plan_name[user.plan_id]}</h5>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button class="btn btn-primary">Buy more credits</button>

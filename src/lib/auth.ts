@@ -1,4 +1,4 @@
-import { goto } from "$app/navigation";
+import { createUserWithEmail } from "./api";
 
 export const signIn = async (options) => {
     const callbackUrl = window.location.href;
@@ -38,4 +38,8 @@ export const signOut = async () => {
     })
 
     window.location.reload()
+}
+
+export const registerAccount = (email: string, password: string, cf_token: string) => {
+    return createUserWithEmail(email, password, cf_token);
 }

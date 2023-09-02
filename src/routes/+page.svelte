@@ -8,7 +8,7 @@
     <div class="row">
         <h4><a href="/morph">Morph</a> - Change the genre of your uploaded music</h4>
     </div>
-    <div class="row row-cols-auto justify-content-between mb-3">
+    <div class="row row-cols-auto justify-content-between mb-2">
         <div class="col">
             <div class="card mb-5 mb-lg-0">
                 <div class="card-body">

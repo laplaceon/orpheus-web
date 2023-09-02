@@ -2,12 +2,12 @@
     import { page } from '$app/stores';
     import { onMount } from 'svelte';
 
-    import { getUserHistoryItem } from '$lib/api';
+    import { getActionHistoryItem } from '$lib/api';
 
     let historyItem: HistoryItem;
 
     onMount(async () => {
-        const res = await getUserHistoryItem(Number.parseInt($page.params.id), $page.data.session?.user.id);
+        const res = await getActionHistoryItem(Number.parseInt($page.params.id), $page.data.user.token);
         historyItem = await res.json();
     });
 </script>

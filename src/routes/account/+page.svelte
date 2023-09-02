@@ -1,26 +1,25 @@
 <script lang="ts">
     import AccountHeader from "$lib/components/AccountHeader.svelte";
-    import { getUserHistory } from "$lib/api";
+    import { getActionHistory, getUserWithId } from "$lib/api";
 	import { onMount } from 'svelte';
     import { page } from "$app/stores";
 
     let user: User = {
         id: 0,
         email: "",
-        verified: false
+        verified: false,
+        usable_credits: 0,
+        plan_id: 0
     };
 
     let history: HistoryItem[] = [];
 
     onMount(async () => {
-        const res = await getUserHistory($page.data.user.user_id, $page.data.user.token);
+        let res = await getActionHistory($page.data.user.user_id, $page.data.user.token);
         history = await res.json();
 
-        user = {
-            id: $page.data.user.user_id,
-            email: "laplaceon@gmail.com",
-            verified: true
-        }
+        res = await getUserWithId($page.data.user.user_id, $page.data.user.token);
+        user = await res.json()
     });
 
 </script>
@@ -52,7 +51,7 @@
                                 <td class="align-middle">{historyItem.cost} credits</td>
                                 <td>
                                     <button class="btn btn-link">
-                                        <a href="/account/history/{historyItem.id}">View</a>
+                                        <a href="/account/action_history/{historyItem.id}">View</a>
                                     </button>
                                 </td>
                             </tr>

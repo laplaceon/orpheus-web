@@ -32,13 +32,25 @@ export const getUserWithId = (id: number, jwt: string): Promise<Response> => {
     });
 };
 
-export const getUserHistory = (id: number, jwt: string): Promise<Response> => {
+export const getActionHistory = (id: number, jwt: string): Promise<Response> => {
     return fetch(`${apiBaseUrl}/users/${id}/history`, {
         headers: { "Authorization": `Bearer ${jwt}` }
     });
 };
 
-export const getUserHistoryItem = (id: number, jwt: string): Promise<Response> => {
+export const getActionHistoryItem = (id: number, jwt: string): Promise<Response> => {
+    return fetch(`${apiBaseUrl}/history/${id}`, {
+        headers: { "Authorization": `Bearer ${jwt}` }
+    });
+};
+
+export const getPurchaseHistory = (id: number, jwt: string): Promise<Response> => {
+    return fetch(`${apiBaseUrl}/users/${id}/history`, {
+        headers: { "Authorization": `Bearer ${jwt}` }
+    });
+};
+
+export const getPurchaseHistoryItem = (id: number, jwt: string): Promise<Response> => {
     return fetch(`${apiBaseUrl}/history/${id}`, {
         headers: { "Authorization": `Bearer ${jwt}` }
     });
