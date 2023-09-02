@@ -1,5 +1,7 @@
-export const load = async (event) => {
-    return {
-      session: await event.locals.getSession(),
-    };
-  };
+export function load({ cookies }) {
+	const user = cookies.get('user');
+
+	return {
+		user
+	};
+}

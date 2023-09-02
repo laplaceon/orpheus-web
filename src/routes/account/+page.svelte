@@ -2,22 +2,25 @@
     import AccountHeader from "$lib/components/AccountHeader.svelte";
     import { getUserHistory } from "$lib/api";
 	import { onMount } from 'svelte';
-    import { user as _user } from "$lib/auth";
+    import { page } from "$app/stores";
 
     let user: User = {
         id: 0,
         email: "",
         verified: false
-        
     };
 
     let history: HistoryItem[] = [];
 
     onMount(async () => {
-        user = $_user.user;
-
-        const res = await getUserHistory(user.id, $_user.token);
+        const res = await getUserHistory($page.data.user.user_id, $page.data.user.token);
         history = await res.json();
+
+        user = {
+            id: $page.data.user.user_id,
+            email: "laplaceon@gmail.com",
+            verified: true
+        }
     });
 
 </script>

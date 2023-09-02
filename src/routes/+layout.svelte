@@ -2,8 +2,7 @@
     import { SvelteToast } from '@zerodevx/svelte-toast'
     import favicon from "$lib/assets/favicon.png";
     import { page } from '$app/stores';
-    import { signOut } from "@auth/sveltekit/client";
-
+    import { signOut } from '$lib/auth';
 </script>
 
 <svelte:head>
@@ -19,7 +18,7 @@
         </a>
         <div class="navbar-expand" id="navbarNav">
             <ul class="navbar-nav">
-                {#if $page.data.session}
+                {#if $page.data.user}
                     <li class="nav-item">
                         <button type="button" class="btn btn-link">
                             <a href="/account">Account</a>
@@ -45,8 +44,5 @@
 <div id="content" class="container-fluid">
     <slot />
 </div>
-
-
-  
 
 <SvelteToast />

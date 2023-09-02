@@ -1,9 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 
-export const load = async (event) => {
-    const session = await event.locals.getSession();
+export function load({ cookies }) {
+	const user = cookies.get('user');
 
-    if (session != null) {
-        throw redirect(307, "/");
+	if (user) {
+        throw redirect(307, "/")
     }
-  };
+}

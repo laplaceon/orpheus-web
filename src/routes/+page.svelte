@@ -3,7 +3,7 @@
         <h2>Hear something never heard before</h2>
     </div>
     <div class="row">
-        <h4><a href="/radio">Radio</a> - Remix your music in realtime</h4>
+        <h4><a href="/radio">Radio</a> - Realtime generated music streaming</h4>
     </div>
     <div class="row">
         <h4><a href="/morph">Morph</a> - Change the genre of your uploaded music</h4>
