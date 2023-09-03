@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="row mt-2">
-            <p>Additional credits are available for $10 / 100 credits.<br>
+            <p>Additional credits are available for $1 / 10 credits.<br>
             Credits included in plan expire and refresh every month. Additional purchased credits never expire.</p>
         </div>
         <div class="row">
