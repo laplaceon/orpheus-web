@@ -17,10 +17,10 @@
 <p>
     {#if historyItem}
         <ul>
-            <li>{historyItem.action_name}</li>
-            <li>{historyItem.cost}</li>
-            <li>{historyItem.status}</li>
-            <li>{historyItem.created_at}</li>
+            <li>Name: {historyItem.action_name}</li>
+            <li>Cost: {historyItem.cost}</li>
+            <li>Status: {historyItem.status}</li>
+            <li>Created: {historyItem.created_at}</li>
         </ul>
     {/if}
 </p>

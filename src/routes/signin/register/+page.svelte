@@ -3,6 +3,7 @@
     import { registerAccount } from '$lib/auth';
     import { z } from 'zod';
     import { goto } from '$app/navigation';
+    // import { isFakeEmail } from "fakefilter";
 
     let email = '';
     let password = '';
@@ -23,7 +24,7 @@
         email: z.string().email(),
         password: z.string().min(6),
         password_confirm: z.string(),
-    }).superRefine(({password, password_confirm}, ctx) => {
+    }).superRefine(({email, password, password_confirm}, ctx) => {
         if ((password !== password_confirm) || (password_confirm == "")) {
             ctx.addIssue({
                 code: "custom",
@@ -31,6 +32,7 @@
                 path: ["password_confirm"]
             });
         }
+
     });
 
     let errorsList: string[] = [];

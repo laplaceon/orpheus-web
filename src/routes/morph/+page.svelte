@@ -8,6 +8,8 @@
     import { bufferToWave } from "$lib/audio_helpers";
     import TagPicker from "$lib/components/TagPicker.svelte";
 
+    import { round } from "$lib/audio_helpers";
+
     let segmentLength = 0;
     
     let cost = {
@@ -44,7 +46,7 @@
         const res = await getActions();
         const actions = await res.json();
 
-        let genreTransfer = actions.filter((action: any) => action.name == "Genre Transfer");
+        let genreTransfer = actions.filter((action: any) => action.name == "Morph");
         
         if (genreTransfer.length > 0) {
             cost = {
@@ -61,7 +63,7 @@
     let creditsCost: number;
 
     $: if (cost.amount != 0 && cost.unit != 0) {
-        creditsCost = Math.ceil((cost.amount * (segmentLength / cost.unit)) * 100) / 100;
+        creditsCost = round((cost.amount * segmentLength * 10) / cost.unit, 0.01);
     }
 
     $: ready = selectedTags.length > 0 && decodedSegment?.length > 0

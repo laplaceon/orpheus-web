@@ -1,4 +1,5 @@
-const apiBaseUrl = "http://127.0.0.1:8080/v1"
+const apiHost =  false ? "api.tuneforge.ai" : "127.0.0.1:8080"
+const apiBaseUrl = `http://${apiHost}/v1`
 
 export const createUserWithEmail = (email: string, password: string, cf_token: string): Promise<Response> => {
     const payload = {

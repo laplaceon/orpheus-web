@@ -6,6 +6,7 @@
     import * as mm from "music-metadata-browser";
     import { toast } from '@zerodevx/svelte-toast'
     import { onMount } from "svelte";
+    import { round } from "$lib/audio_helpers";
 
     let segmentRange = [0, 0];
     let fixedSegment = false;
@@ -25,13 +26,16 @@
 
     $: segmentLength = segmentRange[1] - segmentRange[0];
 
+    const roundStep = 0.01
+    const sampleRate = 44100
+
     function updateDecodedSegment() {
-        const decodingLength = segmentRange[1] * 44100;
+        const decodingLength = segmentRange[1] * sampleRate;
 
         if (decodingLength < ws.getDecodedData()!.length) {
             updatingDecoded = true;
 
-            const decodingIndices = [44100 * segmentRange[0], 44100 * segmentRange[1]];
+            const decodingIndices = [sampleRate * segmentRange[0], sampleRate * segmentRange[1]];
             let summed = ws.getDecodedData()!.getChannelData(0).slice(...decodingIndices);
 
             for (let i = 1; i < ws.getDecodedData()!.numberOfChannels; i++) {
@@ -65,7 +69,7 @@
             barWidth: 2,
             barGap: 1,
             barRadius: 2,
-            sampleRate: 44100,
+            sampleRate: sampleRate,
         })
 
         const wsRegions = ws.registerPlugin(RegionsPlugin.create());
@@ -76,14 +80,15 @@
             wsRegions.clearRegions();
             activeRegion = wsRegions.addRegion({
                 start: 0,
-                end: ws.getDuration() / 2,
+                end: round(ws.getDuration() / 2, roundStep),
                 content: 'Transform this part',
                 color: 'rgba(255, 0, 200, 0.4)',
                 minLength: 1,
             });
 
             activeRegion.on('update', () => {
-                segmentRange = [Math.floor(activeRegion.start), Math.floor(activeRegion.end)]
+                console.log(round(activeRegion.start, roundStep), round(activeRegion.end, roundStep))
+                segmentRange = [round(activeRegion.start, roundStep), round(activeRegion.end, roundStep)]
                 ws.seekTo(activeRegion.start / ws.getDuration());
             });
 
@@ -92,7 +97,7 @@
             });
 
             segmentRange[0] = 0;
-            segmentRange[1] = Math.floor(ws.getDuration() / 2);
+            segmentRange[1] = round(ws.getDuration() / 2, roundStep);
 
             updateDecodedSegment();
         });
