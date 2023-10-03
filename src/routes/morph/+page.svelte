@@ -2,13 +2,16 @@
     import { onMount } from "svelte";
     import AudioTrimmer from "$lib/components/AudioTrimmer.svelte";
 
-
     import { getActions, pushGenreTransferActionRequest } from "$lib/api";
 
     import { bufferToWave } from "$lib/audio_helpers";
     import TagPicker from "$lib/components/TagPicker.svelte";
 
+    import { page } from '$app/stores';
+
     import { round } from "$lib/audio_helpers";
+
+    import { toast } from '@zerodevx/svelte-toast'
 
     let segmentLength = 0;
     
@@ -39,6 +42,8 @@
 
     let fileReader: FileReader;
 
+    let worker;
+
     onMount(async () => {
         audioCtx = new window.AudioContext();
         fileReader = new window.FileReader();
@@ -55,10 +60,40 @@
             }
         }
 
+        // worker = new Worker('encoderWorker.js');
+
+        // worker.addEventListener('message', function(e) {
+        //     var mp3Blob = e.data;
+        //     console.log('Received mp3 blob:', mp3Blob);
+        // }, false);
+
         fileReader.onloadend = async function() {
-            await pushGenreTransferActionRequest(1, fileReader.result);
+            // const historyItem = await pushGenreTransferActionRequest($page.data.user.user_id, fileReader.result, $page.data.user.token);
+            // const historyItemBody = await historyItem.json();
+            // if (historyItem.status == 201) {
+                // await checkHistoryStatus(historyItemBody.history_id)
+            // } else {
+                // toast.push(historyItemBody.error);
+            // }
+
+            console.log(selectedTags);
+            
+            loading = false;
         }
     });
+
+    // async function checkHistoryStatus(history_id: number) {
+    //     if (!historyId) return;
+
+    //     const response = await fetch(`/api/history/${historyId}`);
+    //     const result = await response.json();
+        
+    //     historyStatus = result.status;
+
+    //     if (historyStatus !== 'complete') {
+    //         setTimeout(checkHistoryStatus, 5000); // Check every 5 seconds
+    //     }
+    // }
 
     let creditsCost: number;
 
@@ -78,12 +113,18 @@
         audioBuffer.copyToChannel(decodedSegment, 0);
         
         const blob = bufferToWave(audioBuffer);
-        url = window.URL.createObjectURL(blob);
+        // url = window.URL.createObjectURL(blob);
 
-        console.log(url);
+        
+        // To start the conversion:
+        // worker.postMessage({
+        //     cmd: 'convert',
+        //     channels: adata[0],
+        //     sampleRate: adata[1],
+        //     samples: adata[2]
+        // });
 
         // console.log(selectedGenres);
-        loading = false;
 
         fileReader.readAsDataURL(blob);
     }

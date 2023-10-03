@@ -1,4 +1,5 @@
 const apiHost =  false ? "api.tuneforge.ai" : "127.0.0.1:8080"
+// const apiHost = "49.13.83.144:8080"
 const apiBaseUrl = `http://${apiHost}/v1`
 
 export const createUserWithEmail = (email: string, password: string, cf_token: string): Promise<Response> => {
@@ -63,11 +64,12 @@ export const getActions = (): Promise<Response> => {
 
 export const pushGenreTransferActionRequest = (user_id: number, url: any, jwt: string): Promise<Response> => {
     const payload = {
+        "action_id": 1,
         "user_id": user_id,
         "data": url
     }
 
-    return fetch(`${apiBaseUrl}/actions/genretransfer`, {
+    return fetch(`${apiBaseUrl}/actions`, {
         method: "POST",
         body: JSON.stringify(payload),
         headers: { "Authorization": `Bearer ${jwt}` },
@@ -76,15 +78,14 @@ export const pushGenreTransferActionRequest = (user_id: number, url: any, jwt: s
 
 export const pushContinuationActionRequest = (user_id: number, url: any, jwt: string): Promise<Response> => {
     const payload = {
+        "action_id": 2,
         "user_id": user_id,
         "data": url
     }
 
-    return fetch(`${apiBaseUrl}/actions/continuation`, {
+    return fetch(`${apiBaseUrl}/actions`, {
         method: "POST",
         body: JSON.stringify(payload),
         headers: { "Authorization": `Bearer ${jwt}` },
     }); 
 };
-
-

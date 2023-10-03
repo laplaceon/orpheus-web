@@ -1,5 +1,9 @@
 export function load({ cookies }) {
-	const user = cookies.get('user');
+	let user = cookies.get('user');
+
+	if (user) {
+		user = JSON.parse(user);
+	}
 
 	return {
 		user

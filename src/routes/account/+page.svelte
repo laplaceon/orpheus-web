@@ -15,11 +15,13 @@
     let history: HistoryItem[] = [];
 
     onMount(async () => {
-        let res = await getActionHistory($page.data.user.user_id, $page.data.user.token);
+        let res = await getUserWithId($page.data.user.user_id, $page.data.user.token);
+        user = await res.json()
+
+        res = await getActionHistory($page.data.user.user_id, $page.data.user.token);
         history = await res.json();
 
-        res = await getUserWithId($page.data.user.user_id, $page.data.user.token);
-        user = await res.json()
+        console.log(history);
     });
 
 </script>

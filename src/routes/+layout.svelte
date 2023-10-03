@@ -41,8 +41,9 @@
     </div>
 </nav>
 
+<SvelteToast />
+
 <div id="content" class="container-fluid">
     <slot />
 </div>
 
-<SvelteToast />

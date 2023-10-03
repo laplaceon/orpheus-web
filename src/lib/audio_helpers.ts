@@ -1,3 +1,5 @@
+import lamejs from "lamejs";
+
 // Convert an AudioBuffer to a Blob using WAVE representation
 export function bufferToWave(abuffer: AudioBuffer) {
     const len = abuffer.length;
@@ -42,6 +44,12 @@ export function bufferToWave(abuffer: AudioBuffer) {
   
     // create Blob
     return new Blob([buffer], {type: "audio/wav"});
+
+    // let wavHdr = lamejs.WavHeader.readHeader(new DataView(buffer));
+    // let wavSamples = new Int16Array(buffer, wavHdr.dataOffset, wavHdr.dataLen / 2);
+
+    // return [wavHdr.channels, wavHdr.sampleRate, wavSamples];
+
   
     function setUint16(data) {
       view.setUint16(pos, data, true);
@@ -53,6 +61,8 @@ export function bufferToWave(abuffer: AudioBuffer) {
       pos += 4;
     }
   }
+
+
 
 export function round(value: number, step=1.0) {
   const inv = 1.0 / step;
